@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>NeoTest</title>
+    <link rel="stylesheet" href="/css/bs.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <div class="row my-3">
+        <table class="col-6 offset-3 table table-bordered element">
+            <thead>
+            <th>Name</th>
+            <th>Alter</th>
+            <th>Projekt</th>
+            </thead>
+            <tbody>
+            <tr th:each="student : ${Studenten}">
+                <td th:text="${student.name}"></td>
+                <td th:text="${student.alter}"></td>
+                <td th:text="${student.worksOn != null ? student.worksOn.projekt.name : 'Keines'}"></td>
+                <td class="rm"><button class="btn btn-danger rm-student"><img src="/img/delete.svg"></button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row mb-3">
+        <table class="col-6 offset-3 table table-bordered element">
+            <thead>
+            <th>Name</th>
+            <th>Beschreibung</th>
+            </thead>
+            <tbody>
+            <tr th:each="projekt : ${Projekte}">
+                <td th:text="${projekt.name}"></td>
+                <td th:text="${projekt.beschreibung}"></td>
+                <td class="rm"><button class="btn btn-danger rm-projekt"><img src="/img/delete.svg"></button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-6 offset-3 element p-3">
+            <div class="form-group">
+                <h3>Graph</h3>
+            </div>
+            <div id="viz" th:attr="user=${@environment.getProperty('spring.data.neo4j.username')}, pw=${@environment.getProperty('spring.data.neo4j.password')}"></div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-6 offset-3 element p-3">
+            <div class="form-group">
+                <h3>Neuer Student</h3>
+            </div>
+            <div class="row form-group">
+                <h5 class="col-3">Name</h5>
+                <input id="stu-name" type="text" class="col-4">
+            </div>
+            <div class="row form-group">
+                <h5 class="col-3">Alter</h5>
+                <input id="stu-alter" type="number" class="col-4">
+            </div>
+            <div class="row">
+                <button id="stu-submit" class="col-2 offset-9 btn btn-primary" placeholder="send">Senden</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-6 offset-3 element p-3">
+            <div class="form-group">
+                <h3>Neues Projekt</h3>
+            </div>
+            <div class="row form-group">
+                <h5 class="col-3">Name</h5>
+                <input id="pro-name" type="text" class="col-4">
+            </div>
+            <div class="row form-group">
+                <h5 class="col-3">Beschreibung</h5>
+                <input id="pro-text" type="text" class="col-8">
+            </div>
+            <div class="row">
+                <button id="pro-submit" class="col-2 offset-9 btn btn-primary" placeholder="send">Senden</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-6 offset-3 element p-3">
+            <div class="form-group">
+                <h3>Projekt zuordnen</h3>
+            </div>
+            <div class="row form-group">
+                <h5 class="col-3">Student</h5>
+                <select id="ass-student" class="col-4">
+                    <option value="-1" selected="selected">Bitte wählen</option>
+                    <option th:each="student : ${Studenten}" th:value="${student.id}" th:text="${student.name}"></option>
+                </select>
+            </div>
+            <div class="row form-group">
+                <h5 class="col-3">Projekt</h5>
+                <select id="ass-projekt" class="col-4">
+                    <option value="-1" selected="selected">Keines</option>
+                    <option th:each="projekt : ${Projekte}" th:value="${projekt.id}" th:text="${projekt.name}"></option>
+                </select>
+            </div>
+            <div class="row form-group">
+                <h5 class="col-3">Anfang</h5>
+                <input id="ass-start" type="date" class="col-4"/>
+            </div>
+            <div class="row form-group">
+                <h5 class="col-3">Ende</h5>
+                <input id="ass-end" type="date" class="col-4"/>
+            </div>
+            <div class="row">
+                <button id="ass-submit" class="col-2 offset-9 btn btn-primary">Senden</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/neoviz.js"></script>
+    <script src="/js/logic.js"></script>
+    <script>draw()</script>
+
+</body>
+</html>
