@@ -85,7 +85,7 @@ var viz;
 function draw() {
     var config = {
         container_id: "viz",
-        server_url: "bolt://localhost:7687",
+        server_url: $("#viz").attr("url"),
         server_user: $("#viz").attr("user"),
         server_password: $("#viz").attr("pw"),
         labels: {
@@ -113,7 +113,6 @@ function draw() {
     viz.render();
     console.log(viz);
 }
-
 
 $("#stu-submit").click(function () {
     sendSaveStudent();
