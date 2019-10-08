@@ -49,7 +49,7 @@
             <div class="form-group">
                 <h3>Graph</h3>
             </div>
-            <div id="viz" th:attr="user=${@environment.getProperty('spring.data.neo4j.username')}, pw=${@environment.getProperty('spring.data.neo4j.password')}"></div>
+            <div id="viz" th:attr="user=${@environment.getProperty('spring.data.neo4j.username')}, pw=${@environment.getProperty('spring.data.neo4j.password')}, url=${@environment.getProperty('spring.data.neo4j.uri')}"></div>
         </div>
     </div>
 

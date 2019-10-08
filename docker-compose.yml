@@ -1,0 +1,49 @@
+version: "3"
+
+services:
+  persistence:
+    image: neo4j
+    volumes:
+      - neo4j:/data
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.8"
+          memory: 600m
+      restart_policy:
+        condition: on-failure
+    ports:
+    - "7474:7474"
+    - "7687:7687"
+    environment:
+      NEO4J_AUTH: neo4j/apfel
+    networks:
+    - stunet
+
+  web:
+    depends_on:
+      - persistence
+    image: studentapp
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 250m
+      restart_policy:
+        condition: on-failure
+    ports:
+    - "80:80"
+    environment:
+      NEO4J_URL: persistence
+      NEO4J_USER: neo4j
+      NEO4J_PASS: apfel
+    networks:
+    - stunet
+
+volumes:
+  neo4j:
+
+networks:
+  stunet:
